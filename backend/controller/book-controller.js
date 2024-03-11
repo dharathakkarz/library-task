@@ -47,14 +47,17 @@ const addPost = async (req, res) => {
 const addBook = async (req, res) => {
     try {
 
-        const { title, author, category } = req.body;
+      const { title, author, category, price, description, image } = req.body;
         console.log('Title:', title);
         console.log('Author:', author);
         console.log('Category:', category);
+        console.log('Price:', price);
+        console.log('description:', description);
+       // console.log('image:', image);
         console.log(req.body)
 
         const newBook = new Book({
-            title, author, category, available: true,
+            title, author, category,description,image,price, available: true,
         })
         await newBook.save();   
         res.status(201).json({ msg: 'book added', book: newBook })
@@ -108,7 +111,7 @@ const deleteBook = async (req, res) => {
   const updateBook = async(req,res)=>{
     try {
         const bookId = req.params.id;
-        const { title, author, category } = req.body;
+        const { title, author, category, price, description, image } = req.body;
 
         //check book from db
         const existingBook = await Book.findById(bookId);
@@ -118,6 +121,9 @@ const deleteBook = async (req, res) => {
         existingBook.set({
             title: title || existingBook.title,
             author: author || existingBook.author,
+            description: description || existingBook.description,
+            image: image || existingBook.image,
+            price: price || existingBook.price,
             category: category || existingBook.category,
           });
           await existingBook.save();

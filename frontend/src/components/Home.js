@@ -1,0 +1,23 @@
+import React from 'react'
+
+const Home = () => {
+    const backgroundImageUrl = 'https://www.pixel-studios.com/blog/wp-content/uploads/2018/12/012-1200x600.jpg';
+  return (
+    <div className="bg-image  " style={{ backgroundImage: `url(${backgroundImageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh', border: '1px solid red',      }}>
+    <div className="container h-100">
+      <div className="row h-100 align-items-center">
+        <div className="col-12 text-center text-dark">
+          <h1 className="display-4">Welcome to the Library Management App</h1>
+          <p className="lead">Explore our collection and manage your library efficiently.</p>
+       
+        
+            <button className="btn btn-primary btn-lg">View Books</button>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+  )
+}
+
+export default Home
