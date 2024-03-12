@@ -34,24 +34,22 @@ const userSchema = new Schema({
    
   });
 
-  const user=this;
-
-userSchema.methods.generateToken = async function(){
+  userSchema.methods.generateToken = function () {
    try {
-      return jwt.sign({
+     return jwt.sign(
+       {
          userId: this._id.toString(),
-         email:this.email,
+         email: this.email,
+         expiresIn: '30d',
          isAdmin: this.isAdmin,
-      },
-      process.env.JWT_SECRETE_KEY
-      )
-      
+       },
+       process.env.JWT_SECRET
+     );
    } catch (error) {
-      console.log(error)
-      
+     console.log(error);
    }
-
-};
+ };
+ 
 
   const User = new mongoose.model( 'User', userSchema );
 

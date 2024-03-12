@@ -23,6 +23,7 @@
 const express = require('express');
 const app = express();
 const port = 5000;
+const cors = require('cors');
 
 // Load environment variables from a .env file
 require('dotenv').config();
@@ -36,6 +37,7 @@ if (!jwtSecret) {
 }
 
 const connectDB = require('./db');
+app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(express.json());
 
 app.get('/', (req, res) => {
