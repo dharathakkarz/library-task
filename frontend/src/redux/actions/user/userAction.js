@@ -21,7 +21,7 @@ const registerUser = (username, email, password, phone) => {
         config
       );
 
-      console.log('Register User Action Payload:', data); // Add this log statement
+      console.log('Register User Action Payload:', data); 
 
       dispatch({
         type: USER_REGISTER_SUCCESS,
@@ -32,7 +32,7 @@ const registerUser = (username, email, password, phone) => {
       localStorage.setItem('userAuthData', JSON.stringify(data));
 
     } catch (error) {
-      console.error('Register User Action Error:', error); // Add this log statement
+      console.error('Register User Action Error:', error); 
       dispatch({
         type: USER_REGISTER_FAIL,
         payload: error.response.data.message,
@@ -58,7 +58,7 @@ const loginUser = (email, password) => {
 
       const { data } = await axios.post('http://localhost:5000/api/auth/login', { email, password }, config);
 
-      console.log('Login User Action Payload:', data); // Add this log statement
+      console.log('Login User Action Payload:', data); 
 
       dispatch({
         type: USER_LOGIN_SUCCESS,
@@ -83,7 +83,7 @@ const logoutUser =() => async dispatch =>{
     localStorage.removeItem('userAuthData')
     dispatch({type :USER_LOGOUT_SUCCESS})
   } catch (error) {
-    
+    console.error('Logout User Action Error:', error);
   }
 }
 
