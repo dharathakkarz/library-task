@@ -1,7 +1,5 @@
 
-
-//====second working code without toast
-import { USER_REGISTER, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_LOGIN_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN } from "../books/actionType";
+import { USER_REGISTER, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_LOGIN_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN, USER_LOGOUT_SUCCESS } from "../books/actionType";
 import axios from 'axios';
 
 const registerUser = (username, email, password, phone) => {
@@ -80,4 +78,15 @@ const loginUser = (email, password) => {
   }
 }
 
-export { registerUser, loginUser };
+const logoutUser =() => async dispatch =>{
+  try {
+    localStorage.removeItem('userAuthData')
+    dispatch({type :USER_LOGOUT_SUCCESS})
+  } catch (error) {
+    
+  }
+}
+
+
+
+export { registerUser, loginUser ,logoutUser};

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../redux/actions/user/userAction';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../Navbar';
 
 const Signup = () => {
   const [username, setName] = useState('');
@@ -29,6 +30,8 @@ const Signup = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className='row container-height'>
       <div className='col-lg-6 col-md-6 m-auto'>
         <div className='container'>
@@ -90,6 +93,7 @@ const Signup = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

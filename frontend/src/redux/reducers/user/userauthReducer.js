@@ -5,7 +5,8 @@ import {
     USER_REGISTER_FAIL,
     USER_LOGIN,
     USER_LOGIN_FAIL,
-    USER_LOGIN_SUCCESS
+    USER_LOGIN_SUCCESS,
+    USER_LOGOUT_SUCCESS
   } from "../../actions/books/actionType";
   
   const userauthReducer = (state = {}, action) => {
@@ -44,6 +45,9 @@ import {
           error: action.payload,
           loading: false
         };
+
+        case USER_LOGOUT_SUCCESS:
+          return{}
   
       default:
         return state;

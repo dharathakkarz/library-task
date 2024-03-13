@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from './Navbar';
 
 const Home = () => {
   const backgroundImageUrl = 'https://www.pixel-studios.com/blog/wp-content/uploads/2018/12/012-1200x600.jpg';
 
   return (
+    <>
+    <Navbar/>
     <div className="bg-image" style={{ 
       backgroundImage: `url(${backgroundImageUrl})`, 
       backgroundSize: 'cover', 
@@ -19,13 +22,14 @@ const Home = () => {
             <p className="lead">Explore our collection and manage your library efficiently.</p>
 
             {/* Use Link to navigate to the AddBook component */}
-            <Link to="/addbook" className="btn btn-primary btn-lg">
+            <Link to="/register" className="btn btn-primary btn-lg">
               View Books
             </Link>
           </div>
         </div>
       </div>
     </div>
+    </>
   );
 }
 

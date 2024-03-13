@@ -138,9 +138,24 @@ const deleteBook = async (req, res) => {
     }
   }
   
+  //single search book
+  const searchBooks = async (req, res) => {
+    const { searchTerm } = req.body;
+  
+    try {
+      //reg for case-sensitiv
+      const books = await Book.find({ title: { $regex: new RegExp(searchTerm, 'i') } });
+  
+      res.status(200).json(books);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  
   
   
   
 
 
-module.exports = { addBook ,deleteBook,getAllBooks , updateBook ,addPost,validUser};
+module.exports = { addBook ,deleteBook,getAllBooks , updateBook ,addPost,validUser,searchBooks};
