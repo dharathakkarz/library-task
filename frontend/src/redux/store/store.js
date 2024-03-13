@@ -23,7 +23,7 @@ const preloadedState = {
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
-  devTools: false, // Disable Redux DevTools extension
+  devTools: false, // Disable Redux DevTools extension bcz it generates error
   preloadedState,
 });
 

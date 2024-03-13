@@ -69,7 +69,7 @@ const loginUser = (email, password) => {
       localStorage.setItem('userAuthData', JSON.stringify(data));
 
     } catch (error) {
-      console.error('Login User Action Error:', error); // Add this log statement
+      console.error('Login User Action Error:', error); 
       dispatch({
         type: USER_LOGIN_FAIL,
         payload: error.response.data.message,

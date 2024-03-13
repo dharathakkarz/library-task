@@ -12,7 +12,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Initialize useNavigate
 
-  // Grab pieces of data from our store that we care about
+  
   const state = useSelector((state) => state.userLogin) || {};
   const { error, loading, userData } = state;
 
@@ -21,7 +21,7 @@ const Login = () => {
     const { email, password } = data;
 
     const navToBook = () => {
-      navigate('/book'); // Correct the route to '/book'
+      navigate('/book'); 
     };
 
     if (email.trim() === '' || password.trim() === '') {
@@ -29,8 +29,7 @@ const Login = () => {
     } else {
       dispatch(loginUser(email, password));
 
-      // Redirect to "/book" page using useNavigate after successful login
-      navToBook();
+      navToBook(); //after login
     }
   };
 

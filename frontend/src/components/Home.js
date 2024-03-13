@@ -21,7 +21,7 @@ const Home = () => {
             <h1 className="display-4">Welcome to the Library Management App</h1>
             <p className="lead">Explore our collection and manage your library efficiently.</p>
 
-            {/* Use Link to navigate to the AddBook component */}
+          
             <Link to="/register" className="btn btn-primary btn-lg">
               View Books
             </Link>

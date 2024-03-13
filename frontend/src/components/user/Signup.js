@@ -22,10 +22,10 @@ const Signup = () => {
   };
 
   const formSubmitHandler = (e) => {
-    e.preventDefault(); // Prevent the default form submission
+    e.preventDefault();
 
     dispatch(registerUser(username, email, password, phone));
-    // If you still want to navigate after form submission, you can do it here
+    
     navToLogin();
   };
 
