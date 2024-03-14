@@ -1,6 +1,6 @@
-import { BOOK_FETCH_FAIL, BOOK_FETCH_SUCCESS, FETCH_BOOK ,SEARCH_BOOK,BOOK_SEARCH_SUCCESS,BOOK_SEARCH_FAIL,SET_SEARCH_TERM} from "../../actions/books/actionType";
+import {   FETCH_SINGLE_BOOK_REQUEST,FETCH_SINGLE_BOOK_SUCCESS,FETCH_SINGLE_BOOK_FAILURE,BOOK_FETCH_FAIL, BOOK_FETCH_SUCCESS, FETCH_BOOK ,SEARCH_BOOK,BOOK_SEARCH_SUCCESS,BOOK_SEARCH_FAIL,SET_SEARCH_TERM} from "../../actions/books/actionType";
 
-const booklistReducer = (state =  { loading: false, books: [], error: null,searchTerm: '' }, action) => {
+const booklistReducer = (state =  { loading: false, books: [],  book: null, error: null,searchTerm: '' }, action) => {
     switch(action.type){
         case FETCH_BOOK:
             return{
@@ -44,6 +44,25 @@ const booklistReducer = (state =  { loading: false, books: [], error: null,searc
                         ...state,
                         searchTerm: action.payload,
                       };
+                      case FETCH_SINGLE_BOOK_REQUEST:
+                        return {
+                          ...state,
+                          loading: true,
+                          error: null,
+                        };
+                      case FETCH_SINGLE_BOOK_SUCCESS:
+                        return {
+                          ...state,
+                          loading: false,
+                          book: action.payload,
+                          error: null,
+                        };
+                      case FETCH_SINGLE_BOOK_FAILURE:
+                        return {
+                          ...state,
+                          loading: false,
+                          error: action.payload,
+                        };
                     default :return state;
 
 

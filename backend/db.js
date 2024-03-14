@@ -7,9 +7,7 @@ const URI = process.env.MONGO_URI;
 
 const connectDB = async () => {
     try {
-        // if (!URI) {
-        //     throw new Error('MongoDB URI is not defined in environment variables.');
-        // }
+       
 
         await mongoose.connect(URI, {
             useNewUrlParser: true,

@@ -1,5 +1,5 @@
 
-import { CREATE_POST } from '../../actions/books/actionType';
+import { CREATE_POST,FETCH_POSTS } from '../../actions/books/actionType';
 
 const initialState = {
   posts: [],
@@ -11,6 +11,11 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: [...state.posts, action.payload],
+      };
+      case FETCH_POSTS:
+      return {
+        ...state,
+        posts: action.payload,
       };
     default:
       return state;

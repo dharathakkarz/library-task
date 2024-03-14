@@ -20,7 +20,7 @@ const bookSchema = new Schema({
   },
   category: {
     type: String,
-    required: true,  
+    
   },
   price: {
     type: String,

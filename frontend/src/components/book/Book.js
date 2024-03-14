@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import Nav from './user/Nav';
-import { fetchBookAction } from '../redux/actions/books/bookAction';
+import Nav from '../user/Nav';
+import { fetchBookAction } from '../../redux/actions/books/bookAction';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Book = () => {
@@ -11,8 +11,7 @@ const Book = () => {
     dispatch(fetchBookAction());
   }, [dispatch]);
 
-  const filteredBooks = searchTerm
-    ? books.filter((book) => book.title.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredBooks = searchTerm ? books.filter((book) => book.title.toLowerCase().includes(searchTerm.toLowerCase()))
     : books;
 
   return (
@@ -66,4 +65,5 @@ const Book = () => {
 };
 
 
-export default Book;
+export default Book;// without details
+

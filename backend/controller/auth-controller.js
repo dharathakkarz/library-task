@@ -31,34 +31,65 @@ const register = async (req, res) => {
 
 //login
 
-const login = async(req,res)=>{
-    try {
+// const login = async(req,res)=>{
+//     try {
 
-        const {email, password} = req.body;
-        const userExist = await User.findOne({email})
-        console.log(userExist);
+//         const {email, password} = req.body;
+//         const userExist = await User.findOne({email})
+//         console.log(userExist);
 
-        if (!userExist) {
-            return res.status(400).json({ msg: "invalid user" });
-        }
+//         if (!userExist) {
+//             return res.status(400).json({ msg: "invalid user" });
+//         }
 
-        const user = await bcrypt.compare(password, userExist.password)
-        if(user){
-            res.status(200).json({ msg: "Login complete", token: await userExist.generateToken(), userId: userExist._id.toString() });
+//         const user = await bcrypt.compare(password, userExist.password)
+//         if(user){
+//             res.status(200).json({ msg: "Login complete", token: await userExist.generateToken(), userId: userExist._id.toString() });
   
 
-        } else{
-            res.status(401).json({msg:"Invalid Password or Email"});
-        }
+//         } else{
+//             res.status(401).json({msg:"Invalid Password or Email"});
+//         }
         
-    } catch (error) {
+//     } catch (error) {
 
-        console.error('Error in Login:', error);
-        res.status(500).json({ msg: 'Internal Server Error' });
+//         console.error('Error in Login:', error);
+//         res.status(500).json({ msg: 'Internal Server Error' });
 
        
         
+//     }
+// }
+
+const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        
+        // Check if user exists
+        const userExist = await User.findOne({ email });
+        if (!userExist) {
+            return res.status(400).json({ msg: "Invalid email or password" });
+        }
+
+        // Compare passwords
+        const isMatch = await bcrypt.compare(password, userExist.password);
+        if (!isMatch) {
+            return res.status(401).json({ msg: "Invalid email or password" });
+        }
+
+        // Generate JWT token
+        const tokenPayload = {
+            userId: userExist._id.toString(),
+            email: userExist.email,
+            isAdmin: userExist.isAdmin
+        };
+        const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '30d' });
+
+        res.status(200).json({ msg: "Login successful", token });
+    } catch (error) {
+        console.error('Error in Login:', error);
+        res.status(500).json({ msg: 'Internal Server Error' });
     }
-}
+};
 
 module.exports = { register , login};

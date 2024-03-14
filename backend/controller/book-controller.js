@@ -24,13 +24,28 @@ const validUser = (req, res, next) => {
 
 
 
-// Add post for authenticated users only
+// // Add post for authenticated users only
+// const addPost = async (req, res) => {
+//   try {
+//     const { title, content } = req.body;
+//     const author = req.user._id; // Use the user ID from the authenticated user
+
+//     const newPersonalPost = new PersonalPost({ title, content, author });
+//     await newPersonalPost.save();
+
+//     res.status(201).json({ message: 'Personal post added', post: newPersonalPost });
+//   } catch (error) {
+//     console.error('Error adding personal post:', error);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// };
+
+
 const addPost = async (req, res) => {
   try {
     const { title, content } = req.body;
-    const author = req.user._id; // Use the user ID from the authenticated user
 
-    const newPersonalPost = new PersonalPost({ title, content, author });
+    const newPersonalPost = new PersonalPost({ title, content });
     await newPersonalPost.save();
 
     res.status(201).json({ message: 'Personal post added', post: newPersonalPost });
@@ -40,6 +55,39 @@ const addPost = async (req, res) => {
   }
 };
 
+const getAllPosts = async (req, res) => {
+  try {
+    const allPosts = await PersonalPost.find();
+    res.status(200).json({ posts: allPosts });
+  } catch (error) {
+    console.error('Error getting all posts:', error);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
+
+
+//get single book
+const getSingleBook = async (req, res) => {
+  try {
+    const bookId = req.params.id;
+    console.log('Book ID:', bookId); // Add this line to log the book ID
+
+  
+    const book = await Book.findById(bookId);
+
+    if (book) {
+    
+      res.status(200).json({ book });
+    } else {
+    
+      res.status(404).json({ message: 'Book not found' });
+    }
+  } catch (error) {
+    
+    console.error('Error fetching book by ID:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 
 
 
@@ -158,4 +206,4 @@ const deleteBook = async (req, res) => {
   
 
 
-module.exports = { addBook ,deleteBook,getAllBooks , updateBook ,addPost,validUser,searchBooks};
+module.exports = { getSingleBook,addBook ,deleteBook,getAllBooks , updateBook ,addPost,getAllPosts,validUser,searchBooks};

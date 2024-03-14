@@ -24,7 +24,7 @@ const userSchema = new Schema({
    },
    isAdmin: {
     type:Boolean,
-    default: false
+    default: true
    },
    date: {
     type:Date,
@@ -35,20 +35,21 @@ const userSchema = new Schema({
   });
 
   userSchema.methods.generateToken = function () {
-   try {
-     return jwt.sign(
-       {
-         userId: this._id.toString(),
-         email: this.email,
-         expiresIn: '30d',
-         isAdmin: this.isAdmin,
-       },
-       process.env.JWT_SECRET
-     );
-   } catch (error) {
-     console.log(error);
-   }
- };
+    try {
+      return jwt.sign(
+        {
+          userId: this._id.toString(),
+          email: this.email,
+          isAdmin: this.isAdmin,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: '30d' } // Corrected expiresIn option
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
  
 
   const User = new mongoose.model( 'User', userSchema );
