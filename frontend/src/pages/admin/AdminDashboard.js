@@ -12,7 +12,7 @@ const AdminDashboard = () => {
             <div className="card-body">
               <h5 className="card-title">Manage Authors</h5>
               <p className="card-text">View and manage Authors in the library.</p>
-              <Link to="/manage-books" className="btn btn-primary ">Go to Authors</Link> 
+              <Link to="/manage-authors" className="btn btn-primary ">Go to Authors</Link> 
             </div>
           </div>
         </div>

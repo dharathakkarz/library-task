@@ -76,7 +76,7 @@ const getSingleBook = async (req, res) => {
 
 
 
-//add book
+//add book without authour reference 
 const addBook = async (req, res) => {
     try {
 
@@ -185,10 +185,82 @@ const deleteBook = async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   };
+
+  //fetch authors 
+   const getAllAuthours = async (req,res)=>{
+    try {
+      const authors = await Book.distinct('author');
+      res.status(200).json({authors});
+      
+    } catch (error) {
+      console.error('Error getting all authors:', error);
+    res.status(500).json({ msg: 'Server error' });
+      
+    }
+   }
   
-  
+  //get single authour
+  const getSingleAuthor = async(req,res) =>{
+    const {authorName} = req.params;
+    try {
+      const author = await Book.findOne({author : authorName});
+      if(author){
+        res.status(200).json({author})
+      }else{
+        res.status(404).json({message:'author not found'})
+      }
+    } catch (error) {
+      console.error('Error getting single author:', error);
+    res.status(500).json({ msg: 'Server error' });
+      
+    }
+  }
+
+
+ 
+
+// update an author
+const updateAuthor = async (req, res) => {
+  const { authorName } = req.params;
+  const { newName } = req.body; 
+
+  try {
+    const author = await Book.findOne({ author: authorName });
+
+    if (author) {
+      author.author = newName; 
+      await author.save();
+      res.status(200).json({ message: 'Author updated', author });
+    } else {
+      res.status(404).json({ message: 'Author not found' });
+    }
+  } catch (error) {
+    console.error('Error updating author:', error);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
+const deleteAuthor = async (req, res) => {
+  const { authorName } = req.params;
+
+  try {
+    //  author by name
+    const author = await Book.findOne({ author: authorName });
+
+    if (author) {
+      // Remove  author 
+      await Book.deleteOne({ author: authorName });
+      res.status(200).json({ message: 'Author deleted' });
+    } else {
+     
+      res.status(404).json({ message: 'Author not found' });
+    }
+  } catch (error) {
+    console.error('Error deleting author:', error);
+    res.status(500).json({ msg: 'Server error' });
+  }
+};
   
   
 
 
-module.exports = { getSingleBook,addBook ,deleteBook,getAllBooks , updateBook ,addPost,getAllPosts,validUser,searchBooks};
+module.exports = {updateAuthor,deleteAuthor,getAllAuthours,getSingleAuthor, getSingleBook,addBook ,deleteBook,getAllBooks , updateBook ,addPost,getAllPosts,validUser,searchBooks};

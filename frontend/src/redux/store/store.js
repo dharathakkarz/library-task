@@ -5,6 +5,7 @@ import {userauthReducer} from '../reducers/user/UserAuthReducer';
 import {thunk} from 'redux-thunk';
 import postReducer from '../reducers/user/PostReducer';
 import adminReducer from '../reducers/admin/AdminReducer';
+import authorReducer from '../reducers/author/AuthorReducer';
 
 
 // Retrieve userAuth from localStorage
@@ -15,7 +16,8 @@ const rootReducer = {
   booklist: booklistReducer,
   userlogin: userauthReducer,
   posts:postReducer,
-  admin:adminReducer
+  admin:adminReducer,
+  authors:authorReducer
 };
 
 const preloadedState = {

@@ -10,6 +10,7 @@ import Post from './pages/post/Post';
 import Admin from './pages/admin/Admin'
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ManageBook from './pages/admin/ManageBook';
+import ManageAuthor from './pages/admin/ManageAuthor';
 
 
 
@@ -29,6 +30,7 @@ function App() {
         <Route path='/admin' element={<Admin/>} />
         <Route path='/admin/dashboard' element={<AdminDashboard/>} />
         <Route path='/manage-books' element={<ManageBook/>} />
+        <Route path='/manage-authors' element={<ManageAuthor/>} />
       
         </Routes>
      

@@ -14,17 +14,18 @@ const register = async (req, res) => {
         const userExist = await User.findOne({ email });
 
         if (userExist) {
-            return res.status(400).json({ msg: "Email already exists" });
+            return res.status(400).json({ msg: "Email already exists" });//check user in db
         }
 
         const saltRounds = 10; // Increase the number of salt rounds for better security but it make this complex and time consuming
         const hash_password = await bcrypt.hash(password, saltRounds);
 
+        //new user create
         const userCreated = await User.create({ username, email, phone, password: hash_password });
 
         res.status(201).json({ msg: "registration complete",userCreated, token: await userCreated.generateToken(), userId: userCreated._id.toString() });
     } catch (error) {
-        console.error('Error in Registration:', error);
+      
         res.status(500).json({ msg: 'Internal Server Error' });
     }
 };
@@ -54,11 +55,12 @@ const login = async (req, res) => {
             email: userExist.email,
             isAdmin: userExist.isAdmin
         };
+        //token for login
         const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '30d' });
 
         res.status(200).json({ msg: "Login successful", token });
     } catch (error) {
-        console.error('Error in Login:', error);
+      
         res.status(500).json({ msg: 'Internal Server Error' });
     }
 };
