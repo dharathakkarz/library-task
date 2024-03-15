@@ -43,7 +43,7 @@ const userSchema = new Schema({
           isAdmin: this.isAdmin,
         },
         process.env.JWT_SECRET,
-        { expiresIn: '30d' } // Corrected expiresIn option
+        { expiresIn: '30d' } 
       );
     } catch (error) {
       console.log(error);
