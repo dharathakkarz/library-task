@@ -13,7 +13,7 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
+            <li className="nav-item font-weight-bold">
               <button className="nav-link btn btn-primary" onClick={() => window.location.href = "/home"}>Home</button>
             </li>
             <li className="nav-item">

@@ -18,7 +18,7 @@ const Book = () => {
     <>
       <Nav />
       <div>
-        <h2 style={{ textAlign: 'center', margin: '20px 0', color: 'blue' }}>View Books</h2>
+        <h2 style={{ textAlign: 'center', margin: '20px 0', color: 'black' }}>View Books</h2>
         <div className='cards-container' style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
           {loading ? (
             <p>Loading books..</p>
@@ -31,6 +31,8 @@ const Book = () => {
                 margin: '10px',
                 border: '1px solid #ddd',
                 borderRadius: '8px',
+               transition: 'all 0.2s ease',
+               cursor:'pointer',
                 overflow: 'hidden', 
               }}>
 
@@ -38,7 +40,7 @@ const Book = () => {
                 {book.image && <img src={book.image} className='card-img-top' alt='' />}
 
 
-                <div className='card-body'>
+                <div className='card-body' >
                   <h5 className='card-title'>{book.title}</h5>
                   <p className='card-text'>{book.description}</p>
 
@@ -66,4 +68,3 @@ const Book = () => {
 
 
 export default Book;// without details
-
