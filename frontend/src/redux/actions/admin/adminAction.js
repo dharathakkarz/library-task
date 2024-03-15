@@ -1,31 +1,34 @@
 
+
 import axios from 'axios';
 import { ADMIN_LOGIN_SUCCESS, ADMIN_LOGIN_FAIL } from '../../actions/books/actionType';
 
 
+const dEmail = 'admin@gmail.com.com';
+const dPassword = 'admin@123';
+
 export const adminLogin = (email, password) => {
   return async (dispatch) => {
     try {
-     
-      const response = await axios.post('http://localhost:5000/api/auth/admin/login', { email, password });
-
-      dispatch({
-        type: ADMIN_LOGIN_SUCCESS,
-        payload: response.data,  
-      });
-
-      
-      localStorage.setItem('adminAuthData', JSON.stringify(response.data));
-
-      return response.data; 
-    } catch (error) {
+      if (email === dEmail && password === dPassword) {
     
+        dispatch({
+          type: ADMIN_LOGIN_SUCCESS,
+          payload: { email: email, token: 'your-admin-token' }, 
+        });
+      } else {
+       
+        dispatch({
+          type: ADMIN_LOGIN_FAIL,
+          payload: 'Invalid email or password',
+        });
+      }
+    } catch (error) {
+     
       dispatch({
         type: ADMIN_LOGIN_FAIL,
-        payload: error.response.data.message, //msg from server
+        payload: 'Error logging in',
       });
-
-      throw error; 
     }
   };
 };

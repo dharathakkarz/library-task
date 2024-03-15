@@ -35,41 +35,6 @@ const createBookAction = bookData =>{
 
 
 
-// // fetch all books
-// const fetchBookAction = () =>{
-//   return async (dispatch) =>{
-//     try {
-
-//       dispatch({
-//           type: FETCH_BOOK,
-//       })
-
-//       const config = {
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       };
-
-//       const {data} = await axios.get('http://localhost:5000/api/book/allbook', config);
-//        console.log('api called',data)
-//       dispatch({
-//           type: BOOK_FETCH_SUCCESS,
-//           payload: data,
-//         });
-
-//         dispatch(setSearchTerm(''));
-       
-      
-//     } catch (error) {
-//       dispatch({
-//           type: BOOK_FETCH_FAIL,
-//           payload: error.response.data.message,
-//         });
-      
-//     }
-
-//   }
-// } // working action
 
 const fetchBookRequest = () => ({
   type: FETCH_BOOK,

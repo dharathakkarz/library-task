@@ -1,79 +1,78 @@
 
-
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../redux/actions/user/userAction';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar';
 
 const Login = () => {
   const { register, handleSubmit, setError, formState: { errors } } = useForm();
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Initialize useNavigate
-
+  const navigate = useNavigate();
   
   const state = useSelector((state) => state.userLogin) || {};
-  const { error, loading, userData } = state;
+  const { error } = state;
 
-  // Submit handler
   const onSubmit = async (data) => {
     const { email, password } = data;
-
-    const navToBook = () => {
-      navigate('/book'); 
-    };
 
     if (email.trim() === '' || password.trim() === '') {
       setError('email', { type: 'manual', message: 'Email and password are required.' });
     } else {
-      dispatch(loginUser(email, password));
-
-      navToBook(); //after login
+      dispatch(loginUser(email, password)).then(() => {
+      
+        navigate('/book'); 
+      });
     }
   };
 
   return (
     <>
-    <Navbar/>
-    <div className='row container-height'>
-      <div className='col-lg-6 col-md-6 m-auto'>
-        <div className='container'>
-          {loading && <h1>Loading</h1>}
-          {error && <h1>{error}</h1>}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <fieldset>
-              <div className='form-group'>
-                <label htmlFor='exampleInputEmail1'>Email address</label>
-                <input
-                  {...register('email', { required: 'Email is required.' })}
-                  type='email'
-                  className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                  placeholder='Enter email'
-                />
-                {errors.email && <p className='invalid-feedback'>{errors.email.message}</p>}
+      <Navbar />
+      <section className="vh-100 gradient-custom">
+        <div className="container py-5 h-100">
+          <div className="row d-flex justify-content-center align-items-center h-100">
+            <div className="col-12 col-md-8 col-lg-6 col-xl-5">
+              <div className="card bg-dark text-white" style={{ borderRadius: '1rem' }}>
+                <div className="card-body p-5 text-center">
+                  <div className="mb-md-5 mt-md-4 pb-5">
+                    <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
+                    {error && <p className="text-danger">{error}</p>}
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <div className="form-outline form-white mb-4">
+                        <label className="form-label" htmlFor="email">Email address</label>
+                        <input
+                          {...register('email', { required: 'Email is required.' })}
+                          id="email"
+                          type="email"
+                          className={`form-control form-control-lg ${errors.email ? 'is-invalid' : ''}`}
+                          placeholder="Enter email"
+                        />
+                        {errors.email && <p className="invalid-feedback">{errors.email.message}</p>}
+                      </div>
+                      <div className="form-outline form-white mb-4">
+                        <label className="form-label" htmlFor="password">Password</label>
+                        <input
+                          {...register('password', { required: 'Password is required.' })}
+                          id="password"
+                          type="password"
+                          className={`form-control form-control-lg ${errors.password ? 'is-invalid' : ''}`}
+                          placeholder="Password"
+                        />
+                        {errors.password && <p className="invalid-feedback">{errors.password.message}</p>}
+                      </div>
+                      <button type='submit' className='btn btn-outline-light btn-lg px-5'>Login</button>
+                    </form>
+                  </div>
+                </div>
               </div>
-              <div className='form-group'>
-                <label htmlFor='exampleInputPassword1'>Password</label>
-                <input
-                  {...register('password', { required: 'Password is required.' })}
-                  type='password'
-                  className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                  placeholder='Password'
-                />
-                {errors.password && <p className='invalid-feedback'>{errors.password.message}</p>}
-              </div>
-              <button type='submit' className='btn btn-info m-auto'>
-                Login
-              </button>
-            </fieldset>
-          </form>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
     </>
   );
 };
 
-export default Login;// 1st
-
+export default Login;

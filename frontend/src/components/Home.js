@@ -9,26 +9,30 @@ const Home = () => {
     <>
     <Navbar/>
     <div className="bg-image" style={{ 
-      backgroundImage: `url(${backgroundImageUrl})`, 
-      backgroundSize: 'cover', 
-      backgroundPosition: 'center', 
-      minHeight: '100vh', 
-      border: '1px solid red', 
+     backgroundImage: `url(${backgroundImageUrl})`,
+     backgroundSize: 'cover',
+     backgroundPosition: 'center',
+     minHeight: '100vh',
+     position: 'relative',  
     }}>
-      <div className="container h-100">
-        <div className="row h-100 align-items-center">
-          <div className="col-12 text-center text-dark">
+      <div
+          className="position-absolute top-0 start-0 w-100 h-100"
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+              display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <div className="container text-center text-white">
             <h1 className="display-4">Welcome to the Library Management App</h1>
             <p className="lead">Explore our collection and manage your library efficiently.</p>
-
-          
             <Link to="/register" className="btn btn-primary btn-lg">
               View Books
             </Link>
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

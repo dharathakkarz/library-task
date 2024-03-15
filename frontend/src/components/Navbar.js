@@ -1,65 +1,34 @@
-// import React from 'react';
-// import { Link } from 'react-router-dom';
 
-// const Navbar = () => {
-//   return (
-//     <div>
-//       <nav className="navbar bg-body-tertiary">
-//         <div className="container-fluid">
-//           <a href="/" className="navbar-brand">Library Management</a>
-//           <ul className="nav">
-//           <li className="nav-item">
-//               <Link className="nav-link" to='/home'>Home</Link>
-//             </li>
-//             <li className="nav-item">
-//               <Link className="nav-link" to='/book'>Books</Link>
-//             </li>
-//             <li className="nav-item">
-//               <Link className="nav-link" to='/register'>Signup</Link>
-//             </li>
-//             <li className="nav-item">
-//               <Link className="nav-link" to='/login'>Login</Link>
-//             </li>
-//           </ul>
-          
-     
-//         </div>
-//       </nav>
-//     </div>
-//   );
-// };
 
-// export default Navbar;
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <div>
-      <nav className="navbar bg-body-tertiary">
-        <div className="container-fluid">
-          <a href="/" className="navbar-brand">Library Management</a>
-          <div className="d-flex justify-content-center">
-            <button className="btn btn-primary mx-2">
-              <Link className="nav-link" to='/home'>Home</Link>
-            </button>
-         
-            <button className="btn btn-primary mx-2">
-              <Link className="nav-link" to='/register'>Signup</Link>
-            </button>
-            <button className="btn btn-primary mx-2">
-              <Link className="nav-link" to='/login'>Login</Link>
-            </button>
-          </div>
-          <div className="d-flex justify-content-center">
-            <button className="btn  btn-primary mx-2">
-              <Link className="nav-link" to='/admin'>Admin</Link> {/* Add Admin link */}
-            </button>
-          </div>
+    <nav className="navbar navbar-expand-lg navbar-dark position-absolute w-100" style={{ zIndex: 1 }}>
+      <div className="container-fluid">
+        <a className="navbar-brand" href="/">Library Management</a>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <button className="nav-link btn btn-primary" onClick={() => window.location.href = "/home"}>Home</button>
+            </li>
+            <li className="nav-item">
+              <button className="nav-link btn btn-primary" onClick={() => window.location.href = "/register"}>Signup</button>
+            </li>
+            <li className="nav-item">
+              <button className="nav-link btn btn-primary" onClick={() => window.location.href = "/login"}>Login</button>
+            </li>
+            <li className="nav-item">
+              <button className="nav-link btn btn-primary" onClick={() => window.location.href = "/admin"}>Admin</button>
+            </li>
+          </ul>
         </div>
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
 };
 
