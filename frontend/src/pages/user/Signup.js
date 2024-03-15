@@ -2,9 +2,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { registerUser } from '../../redux/actions/user/userAction';
+import { registerUser } from '../../redux/actions/user/UserAction';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../Navbar';
+import Nav from '../../components/navbar/Nav';
 
 const Signup = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -26,7 +26,7 @@ const Signup = () => {
 
   return (
     <>
-      <Navbar />
+      <Nav/>
       <section className="vh-100 gradient-custom">
         <div className="container py-5 h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">

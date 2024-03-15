@@ -1,5 +1,5 @@
-const Book = require("../models/book-model");
-const PersonalPost = require("../models/post-model")
+const Book = require("../models/BookModel.js");
+const PersonalPost = require("../models/PostMode.js")
 const jwt = require('jsonwebtoken')
 
 
@@ -24,21 +24,6 @@ const validUser = (req, res, next) => {
 
 
 
-// // Add post for authenticated users only
-// const addPost = async (req, res) => {
-//   try {
-//     const { title, content } = req.body;
-//     const author = req.user._id; // Use the user ID from the authenticated user
-
-//     const newPersonalPost = new PersonalPost({ title, content, author });
-//     await newPersonalPost.save();
-
-//     res.status(201).json({ message: 'Personal post added', post: newPersonalPost });
-//   } catch (error) {
-//     console.error('Error adding personal post:', error);
-//     res.status(500).json({ message: 'Server error' });
-//   }
-// };
 
 
 const addPost = async (req, res) => {

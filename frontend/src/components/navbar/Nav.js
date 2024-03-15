@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { logoutUser } from '../../redux/actions/user/userAction';
-import { searchBook, setSearchTerm } from '../../redux/actions/books/bookAction';
+import { logoutUser } from '../../redux/actions/user/UserAction';
+import { searchBook, setSearchTerm } from '../../redux/actions/books/BookAction';
 
 const Nav = () => {
   const navigate = useNavigate();

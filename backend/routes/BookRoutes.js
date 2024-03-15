@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 
-const {getSingleBook,addBook,deleteBook,getAllBooks,updateBook,addPost,getAllPosts,searchBooks} = require("../controller/book-controller")
+const {getSingleBook,addBook,deleteBook,getAllBooks,updateBook,addPost,getAllPosts,searchBooks} = require("../controller/BookController")
 
 router.get('/',(req,res)=>{
     res.send('api started with auth-router')

@@ -3,7 +3,7 @@ require("dotenv").config({ path: './.env' });
 
 const URI = process.env.MONGO_URI;
 
-//console.log('MongoDB URI:', URI);
+
 
 const connectDB = async () => {
     try {

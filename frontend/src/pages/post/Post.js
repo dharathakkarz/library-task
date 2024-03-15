@@ -2,8 +2,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { createPost } from '../../redux/actions/user/postAction';
-import Nav from '../user/Nav';
+import { createPost } from '../../redux/actions/user/PostAction';
+import Nav from '../../components/navbar/Nav';
 
 const Post = () => {
   const { register, handleSubmit } = useForm();

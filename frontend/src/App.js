@@ -1,16 +1,16 @@
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import Navbar from './components/Navbar';
-import Home from './components/Home';
-import Book from './components/book/Book';
-import Signup from './components/user/Signup';
-import Login from './components/user/Login';
-import Post from './components/post/Post';
-import Admin from './components/admin/Admin'
-import AdminDashboard from './components/admin/adminDashboard';
-import ManageBook from './components/admin/ManageBook';
-import BookDetails from './components/book/BookDetails';
+import Navbar from './components/navbar/NavBar';
+import Home from './pages/home/Home';
+import Book from './pages/book/Book';
+import Signup from './pages/user/Signup';
+import Login from './pages/user/Login';
+import Post from './pages/post/Post';
+import Admin from './pages/admin/Admin'
+import AdminDashboard from './pages/admin/AdminDashboard';
+import ManageBook from './pages/admin/ManageBook';
+
 
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
         <Route path='/admin' element={<Admin/>} />
         <Route path='/admin/dashboard' element={<AdminDashboard/>} />
         <Route path='/manage-books' element={<ManageBook/>} />
-        <Route path='/book/details' element={<BookDetails/>} />
+      
         </Routes>
      
       </BrowserRouter>

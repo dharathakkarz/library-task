@@ -1,7 +1,7 @@
 
 
-import axios from 'axios';
-import { ADMIN_LOGIN_SUCCESS, ADMIN_LOGIN_FAIL } from '../../actions/books/actionType';
+
+import { ADMIN_LOGIN_SUCCESS, ADMIN_LOGIN_FAIL } from '../../ActionType';
 
 
 const dEmail = 'admin@gmail.com.com';

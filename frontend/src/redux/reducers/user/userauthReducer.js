@@ -7,7 +7,7 @@ import {
     USER_LOGIN_FAIL,
     USER_LOGIN_SUCCESS,
     USER_LOGOUT_SUCCESS
-  } from "../../actions/books/actionType";
+  } from "../../ActionType";
   
   const initialState = {
     userData: null,

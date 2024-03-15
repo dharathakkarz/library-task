@@ -1,5 +1,5 @@
 
-import { CREATE_POST,FETCH_POSTS } from '../../actions/books/actionType';
+import { CREATE_POST,FETCH_POSTS } from '../../ActionType';
 
 const initialState = {
   posts: [],

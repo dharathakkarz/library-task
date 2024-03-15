@@ -1,5 +1,6 @@
 import axios from 'axios'
-import {FETCH_SINGLE_BOOK_REQUEST,FETCH_SINGLE_BOOK_SUCCESS,FETCH_SINGLE_BOOK_FAILURE,UPDATE_BOOK_FAILURE,UPDATE_BOOK_SUCCESS,UPDATE_BOOK_REQUEST,DELETE_BOOK_REQUEST,DELETE_BOOK_FAILURE,DELETE_BOOK_SUCCESS,BOOK_SEARCH_SUCCESS,BOOK_SEARCH_FAIL, SEARCH_BOOK,SET_SEARCH_TERM,CREATE_BOOK ,BOOK_CREATED_FAIL,BOOK_CREATED_SUCCESS,FETCH_BOOK,BOOK_FETCH_FAIL,BOOK_FETCH_SUCCESS} from "./actionType"
+import {FETCH_SINGLE_BOOK_REQUEST,FETCH_SINGLE_BOOK_SUCCESS,FETCH_SINGLE_BOOK_FAILURE,UPDATE_BOOK_FAILURE,UPDATE_BOOK_SUCCESS,UPDATE_BOOK_REQUEST,DELETE_BOOK_REQUEST,DELETE_BOOK_FAILURE,DELETE_BOOK_SUCCESS,BOOK_SEARCH_SUCCESS,BOOK_SEARCH_FAIL, SEARCH_BOOK,SET_SEARCH_TERM,CREATE_BOOK ,BOOK_CREATED_FAIL,BOOK_CREATED_SUCCESS,FETCH_BOOK,BOOK_FETCH_FAIL,BOOK_FETCH_SUCCESS} from "../../ActionType"
+import { SERVER_URL ,BOOK} from '../../../constants/Constants'
 
 const createBookAction = bookData =>{
     return async dispatch =>{
@@ -13,7 +14,7 @@ const createBookAction = bookData =>{
             'Content-type': 'application/json'
         }
 
-        const {data} = await axios.post('http://localhost:5000/api/book/addbook', bookData, config);
+        const {data} = await axios.post(`${SERVER_URL}${BOOK}/addbook`, bookData, config);
         dispatch({
             type: BOOK_CREATED_SUCCESS,
              payload: data,
@@ -62,7 +63,7 @@ const fetchBookAction = () => {
         },
       };
 
-      const { data } = await axios.get('http://localhost:5000/api/book/allbook', config);
+      const { data } = await axios.get(`${SERVER_URL}${BOOK}/allbook`, config);
       dispatch(fetchBookSuccess(data));
       dispatch(setSearchTerm('')); 
     } catch (error) {
@@ -86,7 +87,7 @@ const searchBook = (searchTerm) => {
         },
       };
 
-      const { data } = await axios.post('http://localhost:5000/api/book/search', { searchTerm }, config);
+      const { data } = await axios.post(`${SERVER_URL}${BOOK}/search`, { searchTerm }, config);
 
       dispatch({
         type: BOOK_SEARCH_SUCCESS,
@@ -108,32 +109,14 @@ const setSearchTerm = (searchTerm) => {
   };
 };
 
-// const deleteBook = (id) => {
-//   return async (dispatch) => {
-//       try {
-//           dispatch({ type: DELETE_BOOK_REQUEST });
 
-//           const response = await axios.delete('http://localhost:5000/api/book/deletebook');
-
-//           dispatch({
-//               type: DELETE_BOOK_SUCCESS,
-//               payload: response.data
-//           });
-//       } catch (error) {
-//           dispatch({
-//               type: DELETE_BOOK_FAILURE,
-//               payload: error.response.data.message || 'Something went wrong'
-//           });
-//       }
-//   };
-// };
 export const deleteBookAction = (id) => {
   return async (dispatch) => {
     try {
       dispatch({ type: DELETE_BOOK_REQUEST });
 
     
-      const response = await axios.delete(`http://localhost:5000/api/book/deletebook/${id}`);
+      const response = await axios.delete(`${SERVER_URL}${BOOK}/deletebook/${id}`);
 
       dispatch({
         type: DELETE_BOOK_SUCCESS,
@@ -154,7 +137,7 @@ export const deleteBookAction = (id) => {
     try {
       dispatch({ type: UPDATE_BOOK_REQUEST });
 
-      const response = await axios.put(`http://localhost:5000/api/book/updatebook/${formData.id}`, formData);
+      const response = await axios.put(`${SERVER_URL}${BOOK}/updatebook/${formData.id}`, formData);
 
       dispatch({
         type: UPDATE_BOOK_SUCCESS,
@@ -192,7 +175,7 @@ const fetchSingleBook = (bookId) => {
     dispatch(fetchSingleBookRequest());
 
     try {
-      const response = await axios.get(`http://localhost:5000/api/book/singlebook/${bookId}`);
+      const response = await axios.get(`${SERVER_URL}${BOOK}/singlebook/${bookId}`);
       dispatch(fetchSingleBookSuccess(response.data.book));
     } catch (error) {
       dispatch(fetchSingleBookFailure(error.message));

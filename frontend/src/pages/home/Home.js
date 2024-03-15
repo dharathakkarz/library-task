@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from './Navbar';
+import Navbar from '../../components/navbar/NavBar';
 
 const Home = () => {
   const backgroundImageUrl = 'https://www.pixel-studios.com/blog/wp-content/uploads/2018/12/012-1200x600.jpg';

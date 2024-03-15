@@ -1,6 +1,7 @@
 
-import { USER_REGISTER, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_LOGIN_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN, USER_LOGOUT_SUCCESS } from "../books/actionType";
+import { USER_REGISTER, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_LOGIN_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN, USER_LOGOUT_SUCCESS } from "../../ActionType";
 import axios from 'axios';
+import { SERVER_URL , AUTH} from '../../../constants/Constants'
 
 const registerUser = (username, email, password, phone) => {
   return async (dispatch) => {
@@ -16,7 +17,7 @@ const registerUser = (username, email, password, phone) => {
       };
 
       const { data } = await axios.post(
-        'http://localhost:5000/api/auth/register',
+        ` ${SERVER_URL}${AUTH}/register`,
         { username, email, password, phone },
         config
       );
@@ -56,7 +57,7 @@ const loginUser = (email, password) => {
         },
       };
 
-      const { data } = await axios.post('http://localhost:5000/api/auth/login', { email, password }, config);
+      const { data } = await axios.post(`${SERVER_URL}${AUTH}/login`, { email, password }, config);
 
       console.log('Login User Action Payload:', data); 
 

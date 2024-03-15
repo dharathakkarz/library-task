@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { adminLogin } from '../../redux/actions/admin/adminAction';
+import { adminLogin } from '../../redux/actions/admin/AdminAction';
 import { useNavigate } from 'react-router-dom';
 
 const Admin = () => {

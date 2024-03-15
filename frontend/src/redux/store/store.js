@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import {bookReducer} from '../reducers/books/bookReducer';
-import {booklistReducer} from '../reducers/books/booklistReducer';
-import {userauthReducer} from '../reducers/user/userauthReducer';
+import {bookReducer} from '../reducers/books/BookReducer';
+import {booklistReducer} from '../reducers/books/BooklistReducer';
+import {userauthReducer} from '../reducers/user/UserAuthReducer';
 import {thunk} from 'redux-thunk';
-import postReducer from '../reducers/user/postReducer';
-import adminReducer from '../reducers/admin/adminReducer';
+import postReducer from '../reducers/user/PostReducer';
+import adminReducer from '../reducers/admin/AdminReducer';
 
 
 // Retrieve userAuth from localStorage

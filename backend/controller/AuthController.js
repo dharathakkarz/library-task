@@ -1,5 +1,7 @@
-const User = require("../models/user-model");
+const User = require("../models/UserModel");
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
+
 
 
 
@@ -29,37 +31,6 @@ const register = async (req, res) => {
 
 
 
-//login
-
-// const login = async(req,res)=>{
-//     try {
-
-//         const {email, password} = req.body;
-//         const userExist = await User.findOne({email})
-//         console.log(userExist);
-
-//         if (!userExist) {
-//             return res.status(400).json({ msg: "invalid user" });
-//         }
-
-//         const user = await bcrypt.compare(password, userExist.password)
-//         if(user){
-//             res.status(200).json({ msg: "Login complete", token: await userExist.generateToken(), userId: userExist._id.toString() });
-  
-
-//         } else{
-//             res.status(401).json({msg:"Invalid Password or Email"});
-//         }
-        
-//     } catch (error) {
-
-//         console.error('Error in Login:', error);
-//         res.status(500).json({ msg: 'Internal Server Error' });
-
-       
-        
-//     }
-// }
 
 const login = async (req, res) => {
     try {

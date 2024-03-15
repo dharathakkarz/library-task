@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const {register} = require("../controller/auth-controller")
-const {login} = require("../controller/auth-controller")
-const {adminLogin} = require("../controller/admin-controller")
+const {register} = require("../controller/AuthController")
+const {login} = require("../controller/AuthController")
+const {adminLogin} = require("../controller/AdminController")
 
 router.get('/',(req,res)=>{
     res.send('api started with auth-router')

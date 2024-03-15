@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { CREATE_POST,FETCH_POSTS } from '../../actions/books/actionType'; 
-
+import { CREATE_POST,FETCH_POSTS } from '../../ActionType'; 
+import { SERVER_URL ,BOOK} from '../../../constants/Constants'
 const createPost = (postData) => async (dispatch) => {
   try {
     const config = {
@@ -10,7 +10,7 @@ const createPost = (postData) => async (dispatch) => {
     };
 
     const response = await axios.post(
-      'http://localhost:5000/api/book/addpost',
+     ` ${SERVER_URL}${BOOK}/addpost`,
       postData,
       config
     );
@@ -30,7 +30,7 @@ const createPost = (postData) => async (dispatch) => {
 
 const fetchPosts = () => async (dispatch) => {
   try {
-    const response = await axios.get('http://localhost:5000/api/book/allposts');
+    const response = await axios.get( ` ${SERVER_URL}${BOOK}/allposts`);
     dispatch({
       type: FETCH_POSTS,
       payload: response.data.posts, 

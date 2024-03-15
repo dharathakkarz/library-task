@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import Nav from '../user/Nav';
-import { fetchBookAction } from '../../redux/actions/books/bookAction';
+import Nav from '../../components/navbar/Nav';
+import { fetchBookAction } from '../../redux/actions/books/BookAction';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Book = () => {
