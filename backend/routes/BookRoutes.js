@@ -19,6 +19,7 @@ router.route('/search').post(adminAuthMiddleware,searchBooks);
 //api of post
 router.route("/addpost").post(userAuthMiddleware,addPost)
 router.route('/allposts').get(userAuthMiddleware,getAllPosts);
+router.route("/allbooks").get(userAuthMiddleware,getAllBooks) 
 
 
 //api of authors

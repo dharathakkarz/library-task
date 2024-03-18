@@ -32,7 +32,7 @@ const register = async (req, res) => {
 
 
 
-
+//login 
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -49,7 +49,23 @@ const login = async (req, res) => {
             return res.status(401).json({ msg: "Invalid email or password" });
         }
 
-        // Generate JWT token
+         // Check if user is admin
+    if (userExist.isAdmin) {
+        // Generate JWT token for admin
+        const adminToken = jwt.sign(
+          {
+            userId: userExist._id.toString(),
+            email: userExist.email,
+            isAdmin: userExist.isAdmin
+          },
+          process.env.ADMIN_JWT_SECRET,
+          { expiresIn: '30d' }
+        );
+  
+        return res.status(200).json({ msg: "Admin login successful", token: adminToken });
+      }
+
+        // Generate JWT token for user
         const tokenPayload = {
             userId: userExist._id.toString(),
             email: userExist.email,

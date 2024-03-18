@@ -24,7 +24,7 @@ const userSchema = new Schema({
    },
    isAdmin: {
     type:Boolean,
-    default: false
+    default: true
    },
    date: {
     type:Date,
@@ -35,22 +35,8 @@ const userSchema = new Schema({
   });
 
 
-  //generate token for user
-  userSchema.methods.generateToken = function () {
-    try {
-      return jwt.sign(
-        {
-          userId: this._id.toString(),
-          email: this.email,
-          isAdmin: this.isAdmin,
-        },
-        process.env.JWT_SECRET,
-        { expiresIn: '30d' } 
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
+ 
   
  
 

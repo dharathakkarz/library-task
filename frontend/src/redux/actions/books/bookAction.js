@@ -63,7 +63,7 @@ const fetchBookAction = (page) => {
         },
       };
 
-      const { data } = await axios.get(`${SERVER_URL}${BOOK}/allbook?page=${page}`, config);
+      const { data } = await axios.get(`${SERVER_URL}${BOOK}/allbooks?page=${page}`, config);
       dispatch(fetchBookSuccess(data));
       dispatch(setSearchTerm('')); 
     } catch (error) {
