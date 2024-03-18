@@ -3,12 +3,31 @@ const PersonalPost = require("../models/PostMode.js")
 const jwt = require('jsonwebtoken')
 
 
-// Authentication middleware
-const validUser = (req, res, next) => {
+// Authentication middleware for admin
+const adminAuthMiddleware = (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
-    return res.status(401).json({ message: 'Unauthorized user' });
+    return res.status(401).json({ message: 'Unauthorized admin' });//CHECK ADMIN TOKEN 
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.ADMIN_JWT_SECRET);
+    req.user = decoded; 
+    next();
+  } catch (error) {
+    console.error('Error verifying admin token:', error);
+    return res.status(401).json({ message: 'Unauthorized admin' });//IF WRONG TOKEN
+  }
+};
+
+
+// Authentication middleware for user
+const userAuthMiddleware = (req, res, next) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized user' });//IF NOT ENTERED USER TOKEN
   }
 
   try {
@@ -17,21 +36,20 @@ const validUser = (req, res, next) => {
     next();
   } catch (error) {
     console.error('Error verifying token:', error);
-
-    return res.status(401).json({ message: 'Unauthorized: user' });
+    return res.status(401).json({ message: 'Unauthorized: invalid token' });//IF NOT ENTERED INVALID USER TOKEN
   }
 };
 
 
 
 
-//create personal post
+//create personal post only if user logged-in
 const addPost = async (req, res) => {
   try {
     const { title, content } = req.body;
 
     const newPersonalPost = new PersonalPost({ title, content });
-    await newPersonalPost.save();
+    await newPersonalPost.save();//SAVE NEW POST IN DB
 
     res.status(201).json({ message: 'Personal post added', post: newPersonalPost });
   } catch (error) {
@@ -40,10 +58,10 @@ const addPost = async (req, res) => {
   }
 };
 
-//fetch all post
+//fetch all post only if user logged-in
 const getAllPosts = async (req, res) => {
   try {
-    const allPosts = await PersonalPost.find();
+    const allPosts = await PersonalPost.find();// find and fetch all post
     res.status(200).json({ posts: allPosts });
   } catch (error) {
     console.error('Error getting all posts:', error);
@@ -56,28 +74,28 @@ const getAllPosts = async (req, res) => {
 const getSingleBook = async (req, res) => {
   try {
     const bookId = req.params.id;
-    console.log('Book ID:', bookId); //  fetch single book with id 
+    console.log('Book ID:', bookId); 
 
   
-    const book = await Book.findById(bookId);
+    const book = await Book.findById(bookId);//  fetch single book with id 
 
     if (book) {
     
-      res.status(200).json({ book });
+      res.status(200).json({ book });//if book found return book or else err msg
     } else {
     
       res.status(404).json({ message: 'Book not found' });
     }
   } catch (error) {
     
-    console.error('Error fetching book by ID:', error);
+ 
     res.status(500).json({ message: 'Server error' });
   }
 };
 
 
 
-//to add new book
+//to add new book only if admin logged-in(token)
 const addBook = async (req, res) => {
   try {
 
@@ -87,7 +105,7 @@ const addBook = async (req, res) => {
     const newBook = new Book({
           title, author, category,description,image,price, available: true,
       })
-      await newBook.save();   
+      await newBook.save();  //save created book in db 
       res.status(201).json({ msg: 'book added', book: newBook })
   }
   catch (error) {
@@ -112,27 +130,12 @@ const deleteBook = async (req, res) => {
   
       res.status(200).json({ msg: 'Book deleted', deletedBook: existingBook });
     } catch (error) {
-      console.error('can not delete book:', error);
+    
       res.status(500).json({ msg: 'Server error' });
     }
   };
   
 
-  //get all books from db without pagination
-  // const getAllBooks = async(req,res) =>{
-  //   try {
-  //       const allBooks = await Book.find();
-
-  //       res.status(200).json({ books: allBooks });
-  //       console.log("all books fetched successfully")
-        
-  //   } catch (error) {
-  //       console.error('Error getting all books:', error);
-  //       res.status(500).json({ msg: 'Server error' });
-        
-  //   }
-  // }
- 
 
   //get all books from db with pagination
   const getAllBooks = async (req, res) => {
@@ -147,7 +150,7 @@ const deleteBook = async (req, res) => {
   
         const totalBooks = await Book.countDocuments();
   
-        const totalPages = Math.ceil(totalBooks / limit);
+      
   
         // Next & Previous Page 
         const pagination = {};
@@ -307,4 +310,4 @@ const deleteAuthor = async (req, res) => {
   
 
 
-module.exports = {updateAuthor,deleteAuthor,getAllAuthours,getSingleAuthor, getSingleBook,addBook ,deleteBook,getAllBooks , updateBook ,addPost,getAllPosts,validUser,searchBooks};
+module.exports = {updateAuthor,deleteAuthor,getAllAuthours,getSingleAuthor, getSingleBook,addBook ,deleteBook,getAllBooks , updateBook ,addPost,getAllPosts,adminAuthMiddleware,userAuthMiddleware,searchBooks};
