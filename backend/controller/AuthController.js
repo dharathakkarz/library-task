@@ -71,6 +71,8 @@ const login = async (req, res) => {
             email: userExist.email,
             isAdmin: userExist.isAdmin
         };
+        process.env.JWT_SECRET,
+        { expiresIn: '30d' }
         //token for login
         const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '30d' });
 

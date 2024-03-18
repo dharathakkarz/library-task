@@ -10,7 +10,7 @@ router.get('/',(req,res)=>{
 
 //api of books with admin only
 router.route("/addbook").post(adminAuthMiddleware,addBook) 
-router.route("/allbook").get(adminAuthMiddleware,getAllBooks) 
+router.route("/allbook").get(getAllBooks) 
 router.route("/deletebook/:id").delete(adminAuthMiddleware,deleteBook) 
 router.route("/updatebook/:id").put(adminAuthMiddleware,updateBook)
 router.route('/singlebook/:id').get(adminAuthMiddleware,getSingleBook); 
@@ -19,7 +19,7 @@ router.route('/search').post(adminAuthMiddleware,searchBooks);
 //api of post
 router.route("/addpost").post(userAuthMiddleware,addPost)
 router.route('/allposts').get(userAuthMiddleware,getAllPosts);
-router.route("/allbooks").get(userAuthMiddleware,getAllBooks) 
+// router.route("/allbooks").get(userAuthMiddleware,getAllBooks) 
 
 
 //api of authors

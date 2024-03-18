@@ -12,7 +12,8 @@ import {
   const initialState = {
     userData: null,
     loading: false,
-    error: null
+    error: null,
+    token: null,
   };
   const userauthReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -45,13 +46,14 @@ import {
       case USER_LOGIN_SUCCESS:
         return {
           ...state,
-          userData: action.payload,
+          token: action.payload,
           loading: false,
           error: null
         };
       case USER_LOGIN_FAIL:
         return {
           ...state,
+          token: null,
           error: action.payload,
           loading: false
         };

@@ -1,7 +1,7 @@
 
 
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +28,40 @@ const Login = () => {
       });
     }
   };
+
+// const Login = () => {
+//   const { register, handleSubmit, setError, formState: { errors } } = useForm();
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+  
+//   const state = useSelector((state) => state.userLogin) || {};
+//   const { error } = state;
+
+//   useEffect(() => {
+//     // Check if the user is already logged in (i.e., token exists in localStorage)
+//     const token = localStorage.getItem('token');
+//     if (token) {
+//       navigate('/book');
+//     }
+//   }, [navigate]);
+
+//   const onSubmit = async (data) => {
+//     const { email, password } = data;
+
+//     if (email.trim() === '' || password.trim() === '') {
+//       setError('email', { type: 'manual', message: 'Email and password are required.' });
+//     } else {
+//       dispatch(loginUser(email, password))
+//         .then((token) => {
+//           localStorage.setItem('token', token); // Store the token in localStorage
+//           navigate('/book'); // Redirect the user to the desired page
+//         })
+//         .catch((error) => {
+//           setError('email', { type: 'manual', message: error.message });
+//         });
+//     }
+//   };
+
 
   return (
     <>

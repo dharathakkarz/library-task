@@ -44,40 +44,58 @@ const registerUser = (username, email, password, phone) => {
 
 // login user
 
-const loginUser = (email, password) => {
-  return async (dispatch) => {
-    try {
-      dispatch({
-        type: USER_LOGIN
-      });
+// const loginUser = (email, password) => {
+//   return async (dispatch) => {
+//     try {
+//       dispatch({
+//         type: USER_LOGIN
+//       });
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
+//       const config = {
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//       };
 
-      const { data } = await axios.post(`${SERVER_URL}${AUTH}/login`, { email, password }, config);
+//       const { data } = await axios.post(`${SERVER_URL}${AUTH}/login`, { email, password }, config);
 
-      console.log('Login User Action Payload:', data); 
+//       console.log('Login User Action Payload:', data); 
 
-      dispatch({
-        type: USER_LOGIN_SUCCESS,
-        payload: data,
-      });
+//       dispatch({
+//         type: USER_LOGIN_SUCCESS,
+//         payload: data,
+//       });
 
-      // save in local storage
-      localStorage.setItem('userAuthData', JSON.stringify(data));
+//       // save in local storage
+//       localStorage.setItem('userAuthData', JSON.stringify(data));
 
-    } catch (error) {
-      console.error('Login User Action Error:', error); 
-      dispatch({
-        type: USER_LOGIN_FAIL,
-        payload: error.response.data.message,
-      });
-    }
+//     } catch (error) {
+//       console.error('Login User Action Error:', error); 
+//       dispatch({
+//         type: USER_LOGIN_FAIL,
+//         payload: error.response.data.message,
+//       });
+//     }
+//   }
+// }
+const loginUser = (email, password) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const response = await axios.post(`${SERVER_URL}${AUTH}/login`, { email, password }, config);
+    const { token } = response.data; // Extract the token from the response
+
+    return token; // Return the token
+  } catch (error) {
+    throw new Error('Invalid email or password'); // Throw an error if login fails
   }
-}
+};
+
+
 
 const logoutUser =() => async dispatch =>{
   try {
