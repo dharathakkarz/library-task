@@ -1,9 +1,8 @@
 
 
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAuthors } from '../../redux/actions/author/AuthorAction';
+import { fetchAuthors, deleteAuthor, updateAuthor } from '../../redux/actions/author/AuthorAction'; // Import the updateAuthor action
 import { useNavigate } from 'react-router-dom';
 import { FaEdit, FaTrash } from 'react-icons/fa'; // Importing update and delete icons
 
@@ -13,6 +12,8 @@ const ManageAuthors = () => {
     const { authors: allAuthors, loading, error } = useSelector(state => state.authors);
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredAuthors, setFilteredAuthors] = useState([]);
+    const [authorToUpdate, setAuthorToUpdate] = useState('');
+    const [newAuthorName, setNewAuthorName] = useState('');
 
     useEffect(() => {
         dispatch(fetchAuthors());
@@ -31,15 +32,19 @@ const ManageAuthors = () => {
     };
 
     const handleEdit = (authorName) => {
-        // Handle edit action
+        setAuthorToUpdate(authorName);
+        setNewAuthorName(authorName); // select the author's name for update
+    };
+
+    const handleUpdate = () => {
+        if (!newAuthorName.trim()) return; // can not  update if new name is empty or only whitespace
+        dispatch(updateAuthor(authorToUpdate, newAuthorName));
+        setNewAuthorName('');
+        setAuthorToUpdate('');
     };
 
     const handleDelete = (authorName) => {
-        // Remove the author from the list of authors
-        const updatedAuthors = filteredAuthors.filter(author => author !== authorName);
-        setFilteredAuthors(updatedAuthors);
-        // You may also want to trigger a delete action to delete the author from the database
-        // dispatch(deleteAuthor(authorName));
+        dispatch(deleteAuthor(authorName));
     };
 
     if (loading) {
@@ -78,6 +83,18 @@ const ManageAuthors = () => {
                             <FaEdit style={{ cursor: 'pointer', marginRight: '5px' }} onClick={() => handleEdit(author)} />
                             <FaTrash style={{ cursor: 'pointer' }} onClick={() => handleDelete(author)} />
                         </div>
+                        {author === authorToUpdate && (
+                            <div className="update-form">
+                                <input
+                                    type="text"
+                                    value={newAuthorName}
+                                    onChange={e => setNewAuthorName(e.target.value)}
+                                    placeholder="Enter new author name"
+                                    autoFocus 
+                                />
+                                <button onClick={handleUpdate}>Update</button>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>
@@ -85,4 +102,4 @@ const ManageAuthors = () => {
     );
 };
 
-export default ManageAuthors;//not deleted
+export default ManageAuthors;

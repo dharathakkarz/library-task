@@ -19,10 +19,11 @@ app.get('/', (req, res) => {
     res.send('API started');
 });
 
+//api routes
 const authRouter = require("./routes/AuthRoutes");
 const bookRouter = require("./routes/BookRoutes");
-app.use("/api/auth", authRouter);
-app.use("/api/book", bookRouter);
+app.use("/api/auth", authRouter);//for user
+app.use("/api/book", bookRouter);//for books
 
 connectDB().then(() => {
     app.listen(port, () => {

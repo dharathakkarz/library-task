@@ -52,7 +52,7 @@ const fetchBookFailure = (error) => ({
 });
 
 
-const fetchBookAction = () => {
+const fetchBookAction = (page) => {
   return async (dispatch) => {
     try {
       dispatch(fetchBookRequest());
@@ -63,7 +63,7 @@ const fetchBookAction = () => {
         },
       };
 
-      const { data } = await axios.get(`${SERVER_URL}${BOOK}/allbook`, config);
+      const { data } = await axios.get(`${SERVER_URL}${BOOK}/allbook?page=${page}`, config);
       dispatch(fetchBookSuccess(data));
       dispatch(setSearchTerm('')); 
     } catch (error) {

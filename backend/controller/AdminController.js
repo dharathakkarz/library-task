@@ -27,7 +27,7 @@ const adminLogin = async (req, res) => {
     }
 
     
-    const token = generateToken('admin', email, true);
+    const token = generateToken('admin', email, true);//admin token
     res.status(200).json({ msg: "Admin login successful", token });
   } catch (error) {
     console.error('Error in admin login:', error);

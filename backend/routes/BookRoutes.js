@@ -8,7 +8,7 @@ router.get('/',(req,res)=>{
     res.send('api started with auth-router')
 })
 
-
+//api of books
 router.route("/addbook").post(addBook) 
 router.route("/allbook").get(getAllBooks) 
 router.route("/deletebook/:id").delete(deleteBook) 
@@ -19,7 +19,7 @@ router.route('/search').post(searchBooks);
 router.route('/allposts').get(getAllPosts);
 router.route('/singlebook/:id').get(getSingleBook);
 
-
+//api of authors
 router.route('/allauthors').get(getAllAuthours);
 router.route('/singleauthors/:authorName').get(getSingleAuthor);
 router.route('/updateauthors/:authorName').put(updateAuthor);

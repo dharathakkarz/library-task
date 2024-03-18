@@ -1,17 +1,19 @@
 import {   FETCH_SINGLE_BOOK_REQUEST,FETCH_SINGLE_BOOK_SUCCESS,FETCH_SINGLE_BOOK_FAILURE,BOOK_FETCH_FAIL, BOOK_FETCH_SUCCESS, FETCH_BOOK ,SEARCH_BOOK,BOOK_SEARCH_SUCCESS,BOOK_SEARCH_FAIL,SET_SEARCH_TERM} from "../../ActionType";
 
-const booklistReducer = (state =  { loading: false, books: [],  book: null, error: null,searchTerm: '' }, action) => {
+const booklistReducer = (state =  { loading: false, books: [],  book: null, error: null,searchTerm: '',pagination: null, }, action) => {
     switch(action.type){
         case FETCH_BOOK:
             return{
                 ...state,
                 loading:true,
+                error: null
             };
             case BOOK_FETCH_SUCCESS:
                 return{
                     ...state,
                     loading: false,
                     books: action.payload.books || [],
+                    pagination: action.payload.pagination || null,
                     error: null,
                 };
                 case BOOK_FETCH_FAIL:
@@ -25,12 +27,14 @@ const booklistReducer = (state =  { loading: false, books: [],  book: null, erro
                       return {
                         ...state,
                         loading: true,
+                        error: null
                       };
                     case BOOK_SEARCH_SUCCESS:
                       return {
                         ...state,
                         loading: false,
                         books: action.payload.books || [],
+                        pagination: action.payload.pagination || null,
                         error: null,
                       };
                     case BOOK_SEARCH_FAIL:

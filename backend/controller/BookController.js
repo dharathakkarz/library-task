@@ -25,7 +25,7 @@ const validUser = (req, res, next) => {
 
 
 
-
+//create personal post
 const addPost = async (req, res) => {
   try {
     const { title, content } = req.body;
@@ -40,6 +40,7 @@ const addPost = async (req, res) => {
   }
 };
 
+//fetch all post
 const getAllPosts = async (req, res) => {
   try {
     const allPosts = await PersonalPost.find();
@@ -55,7 +56,7 @@ const getAllPosts = async (req, res) => {
 const getSingleBook = async (req, res) => {
   try {
     const bookId = req.params.id;
-    console.log('Book ID:', bookId); // Add this line to log the book ID
+    console.log('Book ID:', bookId); //  fetch single book with id 
 
   
     const book = await Book.findById(bookId);
@@ -76,31 +77,24 @@ const getSingleBook = async (req, res) => {
 
 
 
-//add book without authour reference 
+//to add new book
 const addBook = async (req, res) => {
-    try {
+  try {
 
-      const { title, author, category, price, description, image } = req.body;
-        console.log('Title:', title);
-        console.log('Author:', author);
-        console.log('Category:', category);
-        console.log('Price:', price);
-        console.log('description:', description);
-       // console.log('image:', image);
-        console.log(req.body)
-
-        const newBook = new Book({
-            title, author, category,description,image,price, available: true,
-        })
-        await newBook.save();   
-        res.status(201).json({ msg: 'book added', book: newBook })
-    }
-    catch (error) {
-        console.error('can not add book', error);
-        res.status(500).json({ msg: 'server error' });
-    }
+    const { title, author, category, price, description, image } = req.body;
+  
+    //create new book
+    const newBook = new Book({
+          title, author, category,description,image,price, available: true,
+      })
+      await newBook.save();   
+      res.status(201).json({ msg: 'book added', book: newBook })
+  }
+  catch (error) {
+   
+      res.status(500).json({ msg: 'server error' });
+  }
 }
-
 
 //delete books
 const deleteBook = async (req, res) => {
@@ -124,21 +118,66 @@ const deleteBook = async (req, res) => {
   };
   
 
-  //get all books from db
-  const getAllBooks = async(req,res) =>{
-    try {
-        const allBooks = await Book.find();
+  //get all books from db without pagination
+  // const getAllBooks = async(req,res) =>{
+  //   try {
+  //       const allBooks = await Book.find();
 
-        res.status(200).json({ books: allBooks });
-        console.log("all books fetched successfully")
+  //       res.status(200).json({ books: allBooks });
+  //       console.log("all books fetched successfully")
         
+  //   } catch (error) {
+  //       console.error('Error getting all books:', error);
+  //       res.status(500).json({ msg: 'Server error' });
+        
+  //   }
+  // }
+ 
+
+  //get all books from db with pagination
+  const getAllBooks = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1; // Current page number
+        const limit = parseInt(req.query.limit) || 4; // Number of items per page
+  
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+  
+        const allBooks = await Book.find().skip(startIndex).limit(limit);
+  
+        const totalBooks = await Book.countDocuments();
+  
+        const totalPages = Math.ceil(totalBooks / limit);
+  
+        // Next & Previous Page 
+        const pagination = {};
+        if (endIndex < totalBooks) {
+            pagination.next = {
+                page: page + 1,
+                limit: limit
+            };
+        }
+  
+        if (startIndex > 0) {
+            pagination.previous = {
+                page: page - 1,
+                limit: limit
+            };
+        }
+  
+        res.status(200).json({
+            books: allBooks,
+            pagination: pagination
+        });
     } catch (error) {
         console.error('Error getting all books:', error);
         res.status(500).json({ msg: 'Server error' });
-        
     }
   }
- 
+  
+
+
+
   //update book with id
 
   const updateBook = async(req,res)=>{
@@ -151,6 +190,8 @@ const deleteBook = async (req, res) => {
         if (!existingBook) {
           return res.status(404).json({ msg: 'Book not found' });
         }
+
+         //update that book with existing one
         existingBook.set({
             title: title || existingBook.title,
             author: author || existingBook.author,
@@ -225,11 +266,12 @@ const updateAuthor = async (req, res) => {
   const { newName } = req.body; 
 
   try {
-    const author = await Book.findOne({ author: authorName });
+    const author = await Book.findOne({ author: authorName });//find author with name
+
 
     if (author) {
       author.author = newName; 
-      await author.save();
+      await author.save();//save updated author 
       res.status(200).json({ message: 'Author updated', author });
     } else {
       res.status(404).json({ message: 'Author not found' });
@@ -239,6 +281,8 @@ const updateAuthor = async (req, res) => {
     res.status(500).json({ msg: 'Server error' });
   }
 };
+
+//delete author
 const deleteAuthor = async (req, res) => {
   const { authorName } = req.params;
 

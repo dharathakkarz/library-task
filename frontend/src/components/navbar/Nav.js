@@ -1,14 +1,13 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from '../../redux/actions/user/UserAction';
-import { searchBook, setSearchTerm } from '../../redux/actions/books/BookAction';
 
 const Nav = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [searchTermLocal, setSearchTermLocal] = useState('');
+ 
 
   const logoutHandler = async () => {
     await dispatch(logoutUser());
@@ -16,15 +15,7 @@ const Nav = () => {
     console.log('Logout done');
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    dispatch(searchBook(searchTermLocal));
-  };
 
-  const handleSearchTermChange = (e) => {
-    setSearchTermLocal(e.target.value);
-    dispatch(setSearchTerm(e.target.value));
-  };
 
   return (
     <div>
@@ -50,19 +41,7 @@ const Nav = () => {
               Create a Post
             </button>
           </div>
-          <form className="d-flex" role="search" onSubmit={handleSearch}>
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              value={searchTermLocal}
-              onChange={handleSearchTermChange}
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
+         
         </div>
       </nav>
     </div>
