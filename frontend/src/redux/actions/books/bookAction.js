@@ -187,152 +187,83 @@
 
 // export {createBookAction ,fetchSingleBook, fetchBookAction,searchBook,setSearchTerm,updateBookAction}
 //this is without admin token
-
-
 import axios from 'axios'
-import {FETCH_SINGLE_BOOK_REQUEST,FETCH_SINGLE_BOOK_SUCCESS,FETCH_SINGLE_BOOK_FAILURE,UPDATE_BOOK_FAILURE,UPDATE_BOOK_SUCCESS,UPDATE_BOOK_REQUEST,DELETE_BOOK_REQUEST,DELETE_BOOK_FAILURE,DELETE_BOOK_SUCCESS,BOOK_SEARCH_SUCCESS,BOOK_SEARCH_FAIL, SEARCH_BOOK,SET_SEARCH_TERM,CREATE_BOOK ,BOOK_CREATED_FAIL,BOOK_CREATED_SUCCESS,FETCH_BOOK,BOOK_FETCH_FAIL,BOOK_FETCH_SUCCESS} from "../../ActionType"
 import { SERVER_URL ,BOOK} from '../../../constants/Constants'
 
+import {
+  CREATE_BOOK,
+  BOOK_CREATED_SUCCESS,
+    BOOK_CREATED_FAIL, BOOK_FETCH_SUCCESS, BOOK_FETCH_FAIL, 
+    FETCH_BOOK
+} from '../../ActionType';
 
-export const createBookAction = (bookData) => {
-  return async (dispatch) => {
-    try {
-      dispatch({ type: CREATE_BOOK });
-
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`, // Include admin token in the request headers
-        },
-      };
-
-      const { data } = await axios.post(`${SERVER_URL}${BOOK}/addbook`, bookData, config);
-      dispatch({
-        type: BOOK_CREATED_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: BOOK_CREATED_FAIL,
-        payload: error.response.data.message,
-      });
-    }
-  };
+const getToken = () => {  
+  
+  return localStorage.getItem('token');
 };
 
-
-export const fetchBookRequest = () => ({
-  type: FETCH_BOOK,
-});
-
-export const fetchBookSuccess = (data) => ({
-  type: BOOK_FETCH_SUCCESS,
-  payload: data,
-});
-
-export const fetchBookFailure = (error) => ({
-  type: BOOK_FETCH_FAIL,
-  payload: error,
-});
-
-export const fetchBookAction = (page = 1) => async (dispatch) => {
+const createBookAction = (bookData) => async (dispatch) => {
+  
   try {
-    dispatch(fetchBookRequest());
-    
-    const adminToken = localStorage.getItem('adminToken');
-    if (!adminToken) {
-      throw new Error('Admin token not found');
-    }
-    
-    const response = await fetch(`${SERVER_URL}${BOOK}/allbook?page=${page}`, {
+    console.log("hie")
+    const token = getToken(); // Retrieve the token from localStorage
+    console.log("fgf")
+    const config = {
       headers: {
-        'Authorization': `Bearer ${adminToken}`,
-      },
-    });
-
-    if (!response.ok) {
-      if (response.status === 401) {
-        throw new Error('Unauthorized access');
-      } else {
-        throw new Error('Failed to fetch books');
+        
+         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` //  headers
       }
-    }
+      
+    };
+    console.log("token",token)
+    console.log("hieee")
+    const response = await axios.post(
+      `${SERVER_URL}${BOOK}/addbook`,
+      
+      bookData,
+      config
+    );
+    console.log('hft')
+  
 
-    const data = await response.json();
-    dispatch(fetchBookSuccess(data));
+
+    dispatch({
+      type: CREATE_BOOK,
+      payload: response.data, 
+        });
+
+    console.log('BOOK created successfully');
   } catch (error) {
-    dispatch(fetchBookFailure(error.message));
+    console.error('Error creating book:', error);
+  
   }
 };
 
-export const deleteBookAction = (id) => {
-  return async (dispatch) => {
-    try {
-      dispatch({ type: DELETE_BOOK_REQUEST });
 
-      const config = {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`, // Add admin token to the request header
-        },
-      };
 
-      await axios.delete(`${SERVER_URL}${BOOK}/deletebook/${id}`, config);
-      dispatch({ type: DELETE_BOOK_SUCCESS, payload: id });
-    } catch (error) {
-      dispatch({
-        type: DELETE_BOOK_FAILURE,
-        payload: error.response.data.message || 'Something went wrong',
-      });
-    }
-  };
+
+const fetchBooks = (page, pageSize) => async (dispatch) => {
+  try {
+    const token = getToken();
+    const config = {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      params: { page, pageSize }
+    };
+
+    dispatch({ type: FETCH_BOOK });
+
+    const response = await axios.get(`${SERVER_URL}${BOOK}/allbook`, config);
+
+    dispatch({
+      type: FETCH_BOOK,
+      payload: response.data.posts
+    });
+  } catch (error) {
+    console.error('Error fetching books:', error);
+  }
 };
+export { createBookAction,fetchBooks  };
 
-export const updateBookAction = (formData) => {
-  return async (dispatch) => {
-    try {
-      dispatch({ type: UPDATE_BOOK_REQUEST });
-
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`, // Add admin token to the request header
-        },
-      };
-
-      const response = await axios.put(`${SERVER_URL}${BOOK}/updatebook/${formData.id}`, formData, config);
-      dispatch({ type: UPDATE_BOOK_SUCCESS, payload: response.data });
-    } catch (error) {
-      dispatch({
-        type: UPDATE_BOOK_FAILURE,
-        payload: error.response.data.message || 'Something went wrong',
-      });
-    }
-  };
-};
-
-export const searchBook = (searchTerm) => {
-  return async (dispatch) => {
-    try {
-      dispatch({ type: SEARCH_BOOK });
-
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`, // Add admin token to the request header
-        },
-      };
-
-      const { data } = await axios.post(`${SERVER_URL}${BOOK}/search`, { searchTerm }, config);
-      dispatch({ type: BOOK_SEARCH_SUCCESS, payload: data });
-    } catch (error) {
-      dispatch({ type: BOOK_SEARCH_FAIL, payload: error.response.data.message });
-    }
-  };
-};
-
-export const setSearchTerm = (searchTerm) => {
-  return {
-    type: SET_SEARCH_TERM,
-    payload: searchTerm,
-  };
-}

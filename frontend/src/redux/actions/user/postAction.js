@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { CREATE_POST,FETCH_POSTS } from '../../ActionType'; 
-import { SERVER_URL ,BOOK} from '../../../constants/Constants'
+import { SERVER_URL ,BOOK,POST,POSTS} from '../../../constants/Constants'
 // const createPost = (postData) => async (dispatch) => {
 //   try {
 //     const config = {
@@ -45,44 +45,59 @@ import { SERVER_URL ,BOOK} from '../../../constants/Constants'
 
 // postAction.js
 
-// Function to retrieve the authentication token from localStorage
 const getToken = () => {
+  
+  
   return localStorage.getItem('token');
 };
 
-// Your existing code for createPost and fetchPosts actions...
-
 const createPost = (postData) => async (dispatch) => {
+  
   try {
+    console.log("hie")
+    const token = getToken(); // Retrieve the token from localStorage
+    console.log("fgf")
     const config = {
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getToken()}` // Include the token in the request headers
-      },
+        
+         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` //  headers
+      }
+      
     };
-
+    console.log("token",token)
+    console.log("hieee")
     const response = await axios.post(
-      `${SERVER_URL}${BOOK}/addpost`,
+      `${SERVER_URL}${POSTS}`,
+      
       postData,
       config
     );
+    console.log('hft')
+  
+
 
     dispatch({
       type: CREATE_POST,
-      payload: response.data,
-    });
+      payload: response.data, 
+        });
 
     console.log('Post created successfully');
   } catch (error) {
     console.error('Error creating post:', error);
+  
   }
 };
 
+
+
 const fetchPosts = () => async (dispatch) => {
   try {
-    const response = await axios.get(`${SERVER_URL}${BOOK}/allposts`, {
+    console.log("hi")
+    const token = getToken(); 
+    const response = await axios.get(`${SERVER_URL}${POST}`, {
       headers: {
-        'Authorization': `Bearer ${getToken()}` // Include the token in the request headers
+        'Authorization': `Bearer ${token}` // request headers
       }
     });
     dispatch({

@@ -1,39 +1,46 @@
 const Book = require("../models/BookModel.js");
+const User = require("../models/UserModel.js");
 const PersonalPost = require("../models/PostMode.js")
 const jwt = require('jsonwebtoken')
 
 
-// Authentication middleware for admin
-const adminAuthMiddleware = (req, res, next) => {
-  const token = req.headers.authorization;
+// // Authentication middleware for admin
+// const adminAuthMiddleware = (req, res, next) => {
+//   const token = req.header("Authorization");
 
-  if (!token) {
-    return res.status(401).json({ message: 'Unauthorized admin' });//CHECK ADMIN TOKEN 
-  }
+//   if (!token) {
+//     return res.status(401).json({ message: 'Unauthorized admin' });//CHECK ADMIN TOKEN 
+//   }
 
-  try {
-    const decoded = jwt.verify(token, process.env.ADMIN_JWT_SECRET);
-    req.user = decoded; 
-    next();
-  } catch (error) {
-    console.error('Error verifying admin token:', error);
-    return res.status(401).json({ message: 'Unauthorized admin' });//IF WRONG TOKEN
-  }
-};
+//   try {
+//     // const decoded = jwt.verify(token, process.env.ADMIN_JWT_SECRET);
+//     const decoded = jwt.verify(token.split(" ")[1], " process.env.ADMIN_JWT_SECRET");
+//     req.user = decoded; 
+//     next();
+//   } catch (error) {
+//     console.error('Error verifying admin token:', error);
+//     return res.status(401).json({ message: 'Unauthorized admin' });//IF WRONG TOKEN
+//   }
+// };
 
 
 // Authentication middleware for user
 const userAuthMiddleware = (req, res, next) => {
-  const token = req.headers.authorization;
+  const token = req.header("Authorization");
+  console.log("token")
 
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized user' });//IF NOT ENTERED USER TOKEN
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+   // const decoded = jwt.verify(token, process.env.JWT_SECRET);
+   const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
+
+   console.log("token1")
     req.user = decoded; 
     next();
+    console.log("token2",decoded)
   } catch (error) {
     console.error('Error verifying token:', error);
     return res.status(401).json({ message: 'Unauthorized: invalid token' });//IF NOT ENTERED INVALID USER TOKEN
@@ -52,6 +59,7 @@ const addPost = async (req, res) => {
     await newPersonalPost.save();//SAVE NEW POST IN DB
 
     res.status(201).json({ message: 'Personal post added', post: newPersonalPost });
+    console.log("post",newPersonalPost)
   } catch (error) {
     console.error('Error adding personal post:', error);
     res.status(500).json({ message: 'Server error' });
@@ -178,6 +186,50 @@ const deleteBook = async (req, res) => {
     }
   }
   
+
+
+  //get all books from db with pagination
+  const getAllBooksUser = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1; // Current page number
+        const limit = parseInt(req.query.limit) || 4; // Number of items per page
+  
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+  
+        const allBooks = await Book.find().skip(startIndex).limit(limit);
+  
+        const totalBooks = await Book.countDocuments();
+  
+      
+  
+        // Next & Previous Page 
+        const pagination = {};
+        if (endIndex < totalBooks) {
+            pagination.next = {
+                page: page + 1,
+                limit: limit
+            };
+        }
+  
+        if (startIndex > 0) {
+            pagination.previous = {
+                page: page - 1,
+                limit: limit
+            };
+        }
+  
+        res.status(200).json({
+            books: allBooks,
+            pagination: pagination
+        });
+    } catch (error) {
+        console.error('Error getting all books:', error);
+        res.status(500).json({ msg: 'Server error' });
+    }
+  }
+  
+
 
 
 
@@ -310,4 +362,4 @@ const deleteAuthor = async (req, res) => {
   
 
 
-module.exports = {updateAuthor,deleteAuthor,getAllAuthours,getSingleAuthor, getSingleBook,addBook ,deleteBook,getAllBooks , updateBook ,addPost,getAllPosts,adminAuthMiddleware,userAuthMiddleware,searchBooks};
+module.exports = {getAllBooksUser,updateAuthor,deleteAuthor,getAllAuthours,getSingleAuthor, getSingleBook,addBook ,deleteBook,getAllBooks , updateBook ,addPost,getAllPosts,userAuthMiddleware,searchBooks};

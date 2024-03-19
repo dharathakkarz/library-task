@@ -24,7 +24,7 @@ const userSchema = new Schema({
    },
    isAdmin: {
     type:Boolean,
-    default: true
+    default: false
    },
    date: {
     type:Date,

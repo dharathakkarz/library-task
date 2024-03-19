@@ -49,21 +49,21 @@ const login = async (req, res) => {
             return res.status(401).json({ msg: "Invalid email or password" });
         }
 
-         // Check if user is admin
-    if (userExist.isAdmin) {
-        // Generate JWT token for admin
-        const adminToken = jwt.sign(
-          {
-            userId: userExist._id.toString(),
-            email: userExist.email,
-            isAdmin: userExist.isAdmin
-          },
-          process.env.ADMIN_JWT_SECRET,
-          { expiresIn: '30d' }
-        );
+    //      // Check if user is admin
+    // if (userExist.isAdmin) {
+    //     // Generate JWT token for admin
+    //     const adminToken = jwt.sign(
+    //       {
+    //         userId: userExist._id.toString(),
+    //         email: userExist.email,
+    //         isAdmin: userExist.isAdmin
+    //       },
+         
+          
+    //     );
   
-        return res.status(200).json({ msg: "Admin login successful", token: adminToken });
-      }
+    //     return res.status(200).json({ msg: "Admin login successful", token: adminToken });
+    //   }
 
         // Generate JWT token for user
         const tokenPayload = {
@@ -75,7 +75,7 @@ const login = async (req, res) => {
         { expiresIn: '30d' }
         //token for login
         const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '30d' });
-
+        res.header("Authorization", `Bearer ${token}`);
         res.status(200).json({ msg: "Login successful", token });
     } catch (error) {
       

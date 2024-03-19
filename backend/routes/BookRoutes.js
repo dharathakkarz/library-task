@@ -2,30 +2,30 @@ const express = require('express');
 const router = express.Router();
 
 
-const {adminAuthMiddleware,deleteAuthor,updateAuthor,getAllAuthours,getSingleAuthor,getSingleBook,addBook,deleteBook,getAllBooks,updateBook,addPost,getAllPosts,searchBooks, userAuthMiddleware} = require("../controller/BookController")
+const {getAllBooksUser,deleteAuthor,updateAuthor,getAllAuthours,getSingleAuthor,getSingleBook,addBook,deleteBook,getAllBooks,updateBook,addPost,getAllPosts,searchBooks, userAuthMiddleware} = require("../controller/BookController")
 
 router.get('/',(req,res)=>{
     res.send('api started with auth-router')
 })
 
 //api of books with admin only
-router.route("/addbook").post(adminAuthMiddleware,addBook) 
-router.route("/allbook").get(getAllBooks) 
-router.route("/deletebook/:id").delete(adminAuthMiddleware,deleteBook) 
-router.route("/updatebook/:id").put(adminAuthMiddleware,updateBook)
-router.route('/singlebook/:id').get(adminAuthMiddleware,getSingleBook); 
-router.route('/search').post(adminAuthMiddleware,searchBooks);
+router.route("/addbook").post(userAuthMiddleware,addBook) 
+router.route("/allbook").get(userAuthMiddleware,getAllBooks) 
+router.route("/deletebook/:id").delete(userAuthMiddleware,deleteBook) 
+router.route('/singlebook/:id').get(userAuthMiddleware,getSingleBook); 
+router.route("/updatebook/:id").put(userAuthMiddleware,updateBook)
+router.route('/search').post(userAuthMiddleware,searchBooks);
 
 //api of post
 router.route("/addpost").post(userAuthMiddleware,addPost)
 router.route('/allposts').get(userAuthMiddleware,getAllPosts);
-// router.route("/allbooks").get(userAuthMiddleware,getAllBooks) 
+router.route("/allbookuser").get(userAuthMiddleware,getAllBooksUser) 
 
 
 //api of authors
-router.route('/allauthors').get(adminAuthMiddleware,getAllAuthours);
-router.route('/singleauthors/:authorName').get(adminAuthMiddleware,getSingleAuthor);
-router.route('/updateauthors/:authorName').put(adminAuthMiddleware,updateAuthor);
-router.route('/deleteauthors/:authorName').delete(adminAuthMiddleware,deleteAuthor);
+router.route('/allauthors').get(userAuthMiddleware,getAllAuthours);
+router.route('/singleauthors/:authorName').get(userAuthMiddleware,getSingleAuthor);
+router.route('/updateauthors/:authorName').put(userAuthMiddleware,updateAuthor);
+router.route('/deleteauthors/:authorName').delete(userAuthMiddleware,deleteAuthor);
 
 module.exports = router;
